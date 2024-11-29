@@ -6,11 +6,50 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 
-export default function Home() {
+export default function Home({ navigation }) {
+  // Coffee items array with dynamic data
+  const coffeeItems = [
+    {
+      id: 1,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 2,
+      title: "Espresso",
+      description: "Strong and Bold",
+      price: 3.5,
+      imageUrl:
+        "https://images.unsplash.com/photo-1721328291721-d9ea53f437b0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 3,
+      title: "Americano",
+      description: "Classic American Coffee",
+      price: 3.8,
+      imageUrl:
+        "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bmlnaHR8ZW58MHx8MHx8fDA%3D",
+    },
+    {
+      id: 4,
+      title: "Macchiato",
+      description: "Espresso with Milk Foam",
+      price: 4.5,
+      imageUrl:
+        "https://www.naseebiryani.com/cdn/shop/files/Asset_1.png?v=1727164410&width=360",
+    },
+  ];
+
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#1e1e1e" />
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Find the best coffee for you</Text>
@@ -32,72 +71,121 @@ export default function Home() {
       </View>
 
       {/* Coffee Cards */}
-      <View style={styles.cardContainer}>
-        {[1, 2, 3, 4, 5, 6].map((_, index) => (
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.cardContainer}
+        showsHorizontalScrollIndicator={false}
+      >
+        {coffeeItems.map((item, index) => (
           <View key={index} style={styles.card}>
             <Image
               source={{
-                uri: "https://www.naseebiryani.com/cdn/shop/files/Asset_1.png?v=1727164410&width=360",
+                uri: item.imageUrl,
               }}
               style={styles.cardImage}
             />
-            <Text style={styles.cardTitle}>Cappuccino</Text>
-            <Text style={styles.cardDescription}>With Steamed Milk</Text>
-            <Text style={styles.cardPrice}>$4.20</Text>
-            <TouchableOpacity style={styles.addButton}>
-              <Text style={styles.addButtonText}>+</Text>
-            </TouchableOpacity>
+            <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text style={styles.cardDescription}>{item.description}</Text>
+            <View style={styles.div}>
+              <Text style={styles.cardPrice}>
+                <Text style={{ color: "#D17845", paddingRight: 5  ,gap: 1}}>$</Text>
+                {item.price}
+              </Text>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={() =>
+                  navigation.navigate("Details", {
+                    itemId: item.id,
+                    title: item.title,
+                    description: item.description,
+                    price: item.price,
+                    imageUrl: item.imageUrl,
+                  })
+                }
+              >
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#1e1e1e" },
+  container: { flex: 1, backgroundColor: "#1E1E1E" },
 
   header: { padding: 20 },
-  headerText: { color: "#fff", fontSize: 24, fontWeight: "bold", 
+  headerText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
     marginBottom: 10,
-   },
+  },
   searchInput: {
     marginTop: 10,
     padding: 10,
     backgroundColor: "#fff",
     borderRadius: 10,
   },
-  categories: { flexDirection: "row", marginHorizontal: 20, marginTop: 20 },
+  categories: {
+    flexDirection: "row",
+    marginHorizontal: 20,
+    marginTop: 20,
+    backgroundColor: "#252A32",
+  },
   categoryButton: {
     marginRight: 10,
     padding: 10,
-    backgroundColor: "#333",
+    backgroundColor: "#1216B",
     borderRadius: 20,
   },
-  categoryText: { color: "#fff" },
+  categoryText: {
+    color: "#fff",
+    hover: {
+      color: "red",
+    },
+  },
+
   cardContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    marginTop: 20,
+    paddingHorizontal: 10, // Horizontal padding for smooth edges
+    justifyContent: "space-around", // Layout applied here
   },
   card: {
-    width: 150,
+    width: 160, // Adjusted width
     backgroundColor: "#333",
     borderRadius: 10,
     padding: 10,
-    margin: 10,
+    marginRight: 15, // Space between cards
+    marginTop: 20, // Space between cards
   },
-  cardImage: { width: "100%", height: 100, borderRadius: 10 },
+  cardImage: { width: "100%", height: 150, borderRadius: 10 },
   cardTitle: { color: "#fff", fontSize: 16, marginVertical: 5 },
   cardDescription: { color: "#bbb", fontSize: 12 },
-  cardPrice: { color: "#fff", fontSize: 14, fontWeight: "bold", marginTop: 5 },
+  cardPrice: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+    letterSpacing: 0.5,
+  },
   addButton: {
-    marginTop: 10,
-    backgroundColor: "#ff6600",
-    borderRadius: 50,
-    padding: 5,
+    marginTop: 5,
+    backgroundColor: "#D17845",
+    borderRadius: 10,
+    width: 35,
+    height: 30,
+    justifyContent: "center",
     alignItems: "center",
   },
-  addButtonText: { color: "#fff", fontSize: 16 },
+  addButtonText: { color: "#fff", fontSize: 16, textAlign: "center" },
+  div: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor : "black",
+    borderRadius: 10,
+    // padding: 10,
+    width: "100%",
+  },
 });
