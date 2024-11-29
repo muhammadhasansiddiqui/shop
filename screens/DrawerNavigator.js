@@ -2,25 +2,23 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabs from "./BottomTabs"; // Import Bottom Tabs
-import DetailsScreen from "./DetailsScreen"; // Import extra screen
-import Icon from "react-native-vector-icons/Ionicons"; // For Drawer Icons
+import BottomTabs from "./BottomTabs";
+import DetailsScreen from "./DetailsScreen";
 import Notifications from "./Notifications";
+import Favorites from "./FavoritesScreen";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const Drawer = createDrawerNavigator();
 
-// Custom Drawer Content
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
-      {/* Top Image */}
       <View style={styles.imageContainer}>
         <Image
-          source={require("../assets/Group 88.png")} // Path to your image
+          source={require("../assets/Group 88.png")}
           style={styles.drawerImage}
         />
       </View>
-      {/* Drawer Items */}
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
   );
@@ -31,16 +29,24 @@ export default function DrawerNavigator() {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
-        screenOptions={{
-          drawerStyle: {
-            backgroundColor: "#1E1E1E",
-            width: 250, // Adjust drawer width here
-          },
+        screenOptions={({ navigation }) => ({
+          headerStyle: { backgroundColor: "#1E1E1E" },
+          headerTintColor: "white",
+          drawerStyle: { backgroundColor: "#1E1E1E", width: 250 },
           drawerActiveTintColor: "#D17842",
           drawerInactiveTintColor: "white",
-        }}
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Icon
+              name="menu"
+              size={25}
+              color="white"
+              style={{ marginLeft: 15 }}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
       >
-        {/* HomeTabs */}
         <Drawer.Screen
           name="Home"
           component={BottomTabs}
@@ -48,11 +54,9 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             ),
-            headerShown: false,
+            // headerShown: false,
           }}
         />
-
-        {/* Details Screen */}
         <Drawer.Screen
           name="Details"
           component={DetailsScreen}
@@ -60,39 +64,42 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="information-circle" color={color} size={size} />
             ),
-            headerShown: false,
+            // headerShown: false,
           }}
         />
-        {/* notification */}
         <Drawer.Screen
-           name="Notifications"
-           component={Notifications}
-           options={{
+          name="Notifications"
+          component={Notifications}
+          options={{
             drawerIcon: ({ color, size }) => (
-               <Icon name="notifications" color={color} size={size} />
-             ),
-             headerShown: false,
+              <Icon name="notifications" color={color} size={size} />
+            ),
+            // headerShown: false,
           }}
         />
-
-
-
-
-
+        <Drawer.Screen
+          name="Favorites"
+          component={Favorites}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Icon name="heart" color={color} size={size} />
+            ),
+            // headerShown: false,
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
 
-// Styles for the custom drawer
 const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
-    marginVertical: 20, // Space around the image
+    marginVertical: 20,
   },
   drawerImage: {
-    width: 100, // Adjust image width
-    height: 100, // Adjust image height
-    borderRadius: 50, // Make it circular (if needed)
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -8,9 +9,9 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons"; // For Hamburger Icon
 
 export default function Home({ navigation }) {
-  // Coffee items array with dynamic data
   const coffeeItems = [
     {
       id: 1,
@@ -44,7 +45,66 @@ export default function Home({ navigation }) {
       imageUrl:
         "https://www.naseebiryani.com/cdn/shop/files/Asset_1.png?v=1727164410&width=360",
     },
+    {
+      id: 5,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 6,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 7,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 8,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 9,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
+    {
+      id: 10,
+      title: "Cappuccino",
+      description: "With Steamed Milk",
+      price: 4.2,
+      imageUrl:
+        "https://images.unsplash.com/photo-1706207283549-432cee9d58f2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhbG9jaGlzdGFufGVufDB8fDB8fHww",
+    },
   ];
+
+  React.useLayoutEffect(() => {
+    // Customize header
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Icon name="menu" size={25} color="#fff" style={{ marginLeft: 15 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <ScrollView style={styles.container}>
@@ -52,12 +112,15 @@ export default function Home({ navigation }) {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Find the best coffee for you</Text>
-        <TextInput
-          placeholder="Find Your Coffee..."
-          style={styles.searchInput}
-        />
-      </View>
+  <Text style={styles.headerText}>
+    Find the best{'\n'}coffee for you
+  </Text>
+  <TextInput
+    placeholder="Find Your Coffee..."
+    style={styles.searchInput}
+  />
+</View>
+
 
       {/* Categories */}
       <View style={styles.categories}>
@@ -70,7 +133,8 @@ export default function Home({ navigation }) {
         )}
       </View>
 
-      {/* Coffee Cards */}
+      {/* Coffee Cards */} 
+      {/* row 1 */}
       <ScrollView
         horizontal
         contentContainerStyle={styles.cardContainer}
@@ -79,29 +143,29 @@ export default function Home({ navigation }) {
         {coffeeItems.map((item, index) => (
           <View key={index} style={styles.card}>
             <Image
-              source={{
-                uri: item.imageUrl,
-              }}
+              source={{ uri: item.imageUrl }}
               style={styles.cardImage}
             />
             <Text style={styles.cardTitle}>{item.title}</Text>
             <Text style={styles.cardDescription}>{item.description}</Text>
             <View style={styles.div}>
               <Text style={styles.cardPrice}>
-                <Text style={{ color: "#D17845", paddingRight: 5  ,gap: 1}}>$</Text>
+                <Text style={{ color: "#D17845", paddingRight: 5 }}>$</Text>
                 {item.price}
               </Text>
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={() =>
+                onPress={() => {
+                  console.log("Navigating to Details", item);
                   navigation.navigate("Details", {
                     itemId: item.id,
                     title: item.title,
                     description: item.description,
                     price: item.price,
                     imageUrl: item.imageUrl,
-                  })
-                }
+                  });
+                }}
+                
               >
                 <Text style={styles.addButtonText}>+</Text>
               </TouchableOpacity>
@@ -109,20 +173,67 @@ export default function Home({ navigation }) {
           </View>
         ))}
       </ScrollView>
+
+,
+      {/* row 2 */}
+
+<ScrollView
+        horizontal
+        contentContainerStyle={styles.cardContainer}
+        showsHorizontalScrollIndicator={false}
+      >
+        {coffeeItems.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <Image
+              source={{ uri: item.imageUrl }}
+              style={styles.cardImage}
+            />
+            <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text style={styles.cardDescription}>{item.description}</Text>
+            <View style={styles.div}>
+              <Text style={styles.cardPrice}>
+                <Text style={{ color: "#D17845", paddingRight: 5 }}>$</Text>
+                {item.price}
+              </Text>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => {
+                  console.log("Navigating to Details", item);
+                  navigation.navigate("Details", {
+                    itemId: item.id,
+                    title: item.title,
+                    description: item.description,
+                    price: item.price,
+                    imageUrl: item.imageUrl,
+                  });
+                }}
+                
+              >
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  // Styles remain the same
   container: { flex: 1, backgroundColor: "#1E1E1E" },
-
   header: { padding: 20 },
   headerText: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    // textAlign: "center", // Center align the text
+    lineHeight: 30, // Adjust line spacing
+    marginTop:-20,
+    marginBottom:10
   },
+  
   searchInput: {
     marginTop: 10,
     padding: 10,
@@ -132,7 +243,7 @@ const styles = StyleSheet.create({
   categories: {
     flexDirection: "row",
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 5,
     backgroundColor: "#252A32",
   },
   categoryButton: {
@@ -141,24 +252,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#1216B",
     borderRadius: 20,
   },
-  categoryText: {
-    color: "#fff",
-    hover: {
-      color: "red",
-    },
-  },
-
+  categoryText: { color: "#fff" },
   cardContainer: {
-    paddingHorizontal: 10, // Horizontal padding for smooth edges
-    justifyContent: "space-around", // Layout applied here
+    paddingHorizontal: 10,
   },
   card: {
-    width: 160, // Adjusted width
+    width: 160,
     backgroundColor: "#333",
     borderRadius: 10,
     padding: 10,
-    marginRight: 15, // Space between cards
-    marginTop: 20, // Space between cards
+    marginRight: 15,
+    marginTop: 20,
   },
   cardImage: { width: "100%", height: 150, borderRadius: 10 },
   cardTitle: { color: "#fff", fontSize: 16, marginVertical: 5 },
@@ -183,9 +287,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor : "black",
     borderRadius: 10,
-    // padding: 10,
     width: "100%",
   },
 });

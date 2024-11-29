@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./HomeScreen";
 import Notifications from "./Notifications";
 import Bag from "./Card";
-import Like from "./Like";
+import Like from "./FavoritesScreen";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
