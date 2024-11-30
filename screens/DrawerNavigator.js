@@ -6,6 +6,8 @@ import BottomTabs from "./BottomTabs";
 import DetailsScreen from "./DetailsScreen";
 import Notifications from "./Notifications";
 import Favorites from "./FavoritesScreen";
+import Cart from "./Card"; // Cart screen import
+import Payment from "./Payment"
 import Icon from "react-native-vector-icons/Ionicons";
 
 const Drawer = createDrawerNavigator();
@@ -54,7 +56,6 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             ),
-            // headerShown: false,
           }}
         />
         <Drawer.Screen
@@ -64,9 +65,32 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="information-circle" color={color} size={size} />
             ),
-            // headerShown: false,
           }}
         />
+        <Drawer.Screen
+          name="Cart"
+          component={Cart} // Cart screen added here
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Icon name="cart" color={color} size={size} />
+            ),
+          }}
+        />
+<Drawer.Screen
+  name="Payment"
+  component={Payment} // Link the PaymentScreen component here
+  options={{
+    drawerIcon: ({ color, size }) => (
+      <Icon name="card" color={color} size={size} /> // Use an appropriate icon for Payment
+    ),
+  }}
+/>
+
+
+
+
+
+
         <Drawer.Screen
           name="Notifications"
           component={Notifications}
@@ -74,7 +98,6 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="notifications" color={color} size={size} />
             ),
-            // headerShown: false,
           }}
         />
         <Drawer.Screen
@@ -84,7 +107,6 @@ export default function DrawerNavigator() {
             drawerIcon: ({ color, size }) => (
               <Icon name="heart" color={color} size={size} />
             ),
-            // headerShown: false,
           }}
         />
       </Drawer.Navigator>

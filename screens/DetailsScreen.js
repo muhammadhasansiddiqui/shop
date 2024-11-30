@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
-export default function DetailsScreen({ route }) {
+export default function DetailsScreen({ route, navigation }) {
   const { title, description, price, imageUrl } = route.params;
 
   const [selectedSize, setSelectedSize] = useState("250gm");
@@ -47,7 +47,12 @@ export default function DetailsScreen({ route }) {
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.price}>${price.toFixed(2)}</Text>
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity
+          style={styles.addToCartButton}
+          onPress={() =>
+            navigation.navigate("Cart", { title, price, size: selectedSize, imageUrl })
+          }
+        >
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
